@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Index numérique de la Feuille officielle suisse du commerce (1883-2001)</title>
-        <link rel="stylesheet" href="css/app.css" type="text/css" media="screen">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     </head>
     <body>
