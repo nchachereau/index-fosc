@@ -15,7 +15,7 @@
                     <a href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille officielle suisse du commerce</i> (FOSC)</a>
                     est appelée à devenir une ressource importante pour étudier l’histoire économique et sociale de la Suisse contemporaine.
                     À l’usage, il manque pourtant la possibilité d’obtenir rapidement la référence bibliographique de la page trouvée, ainsi
-                    que d’ouvrir la page correspondant à une référence. En somme, il manquait un index numérique.
+                    que d’ouvrir la page correspondant à une référence.
                 </p>
             </div>
         </section>
