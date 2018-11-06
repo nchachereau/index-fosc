@@ -1,0 +1,13 @@
+// Font
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu');
+
+// Variables
+@import 'variables';
+
+// Bulma
+@import '~bulma/bulma';
+
+// My styles
+.title {
+    font-family: $family-secondary
+}
