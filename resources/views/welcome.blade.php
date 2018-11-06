@@ -15,7 +15,7 @@
                     <a href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille officielle suisse du commerce</i> (FOSC)</a>
                     est appelée à devenir une ressource importante pour étudier l’histoire économique et sociale de la Suisse contemporaine.
                     À l’usage, il manque pourtant la possibilité d’obtenir rapidement la référence bibliographique de la page trouvée, ainsi
-                    que d’ouvrir la page correspondant à une référence. En somme, ce qu’il manque, c’est un index numérique.
+                    que d’ouvrir la page correspondant à une référence. En somme, il manquait un index numérique.
                 </p>
             </div>
         </section>
@@ -73,7 +73,7 @@
             <div class="container">
                 <div class="content">
                     <p>Une création de <a href="#">Nicolas Chachereau</a>.</p>
-                    <p>Site construit en PHP grâce au <i lang="en">framework</i> <a href="https://laravel.com/">Laravel</a>. Style basé sur <a href="https://bulma.io/">Bulma</a>. Le code source est disponible sur <a href="#"><i class="fab fa-github"></i> Github</a>.</p>
+                    <p>Technique : Site construit avec <a href="https://laravel.com/">Laravel</a>. Style basé sur <a href="https://bulma.io/">Bulma</a>. Code source disponible sur <a href="#"> <i class="fab fa-github"> </i> Github</a>.</p>
                 </div>
             </div>
         </footer>
