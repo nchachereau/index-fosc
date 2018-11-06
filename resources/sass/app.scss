@@ -11,3 +11,10 @@
 .title {
     font-family: $family-secondary
 }
+
+.label.required:after {
+    content: "*";
+    color: #E37400;
+    font-size: x-small;
+    vertical-align: super;
+}

@@ -25,7 +25,7 @@
                 <form method="get" action="">
                     <div class="columns">
                         <div class="field column">
-                            <label class="label" for="url">Adresse URL de la page numérisée sur e-periodica :</label>
+                            <label class="label" for="url">Adresse URL de la page numérisée sur e-periodica</label>
                             <div class="control is-expanded">
                                 <input class="input" name="url" id="url" type="text" value="" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86">
                             </div>
@@ -39,23 +39,23 @@
         </section>
         <section class="section">
             <div class="container">
-                <h2 class="title is-4">Trouver une page</h2>
+                <h2 class="title is-4">Trouver une page numérisée</h2>
                 <form action="">
                     <div class="columns">
                         <div class="column">
-                            <label class="label" for="dt">Année ou date :</label>
+                            <label class="label required" for="dt" title="Veuillez compléter ce champ.">Année ou date</label>
                             <div class="control">
                                 <input class="input" name="dt" id="dt" type="text" required placeholder="1887">
                             </div>
                         </div>
                         <div class="column">
-                            <label class="label" for="n">Cahier :</label>
+                            <label class="label" for="n">Cahier</label>
                             <div class="control">
                                 <input class="input" name="n" id="n" type="text" placeholder="10">
                             </div>
                         </div>
                         <div class="column">
-                            <label class="label" for="p">Page :</label>
+                            <label class="label required" for="p" title="Veuillez compléter ce champ.">Page</label>
                             <div class="control">
                                 <input class="input" name="p" id="p" type="text" required placeholder="73">
                             </div>
