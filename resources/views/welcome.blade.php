@@ -35,10 +35,19 @@
                 </div>
             </div>
         @endif
+        @if (session('error'))
+            <div class="container">
+                <div class="message is-danger">
+                    <div class="message-body">
+                        {{ session('error') }}
+                    </div>
+                </div>
+            </div>
+        @endif
         <section class="section">
             <div class="container">
                 <h2 class="title is-4">Obtenir la référence d’une page</h2>
-                <form method="get" action="">
+                <form method="get" action="{{ route('get_suffix') }}">
                     <div class="columns">
                         <div class="field column">
                             <label class="label" for="url">Adresse URL de la page numérisée sur e-periodica</label>
