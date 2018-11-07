@@ -27,8 +27,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     closeLink.className = 'delete';
     closeLink.addEventListener('click', function() {
         e.parentNode.parentNode.style.display = 'none';
+        window.history.pushState({'hidden': true}, document.title, baseRoute);
     });
     e.insertBefore(closeLink, e.childNodes[0]);
+
+    window.onpopstate = function(event) {
+        if (event.state && event.state.hidden) {
+            e.parentNode.parentNode.style.display = 'none';
+        } else {
+            e.parentNode.parentNode.style.display = 'block';
+        }
+    };
 });
 
 // function to copy to clipboard
