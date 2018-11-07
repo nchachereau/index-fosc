@@ -11,8 +11,8 @@
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
         "bulma": "^0.7.2",
+        "bulma-tooltip": "^2.0.2",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
