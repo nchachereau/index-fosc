@@ -6,15 +6,36 @@
 
 // Bulma
 @import '~bulma/bulma';
+@import '~bulma-tooltip';
 
 // My styles
 .title {
     font-family: $family-secondary
 }
-
 .label.required:after {
     content: "*";
     color: #E37400;
     font-size: x-small;
+    vertical-align: super;
+}
+#reference-box {
+    padding-bottom: 1.5rem;
+    font-size: larger;
+}
+#reference-box > * {
+    padding: 0.3rem;
+}
+.can-copy::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: small;
+    vertical-align: super;
+    content: " \f0c5";
+}
+sup {
+    font-size: small;
+}
+.fa-external-link-alt {
+    font-size: small;
     vertical-align: super;
 }

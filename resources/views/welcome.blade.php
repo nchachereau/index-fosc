@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Index numérique de la Feuille officielle suisse du commerce (1883-2001)</title>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <script src="{{ asset('js/all.js') }}"></script>
     </head>
     <body>
         <section class="section is-medium">
@@ -19,6 +20,19 @@
                 </p>
             </div>
         </section>
+        @if (!empty($reference))
+            <div class="section">
+                <div class="container">
+                    <div class="notification is-primary" id="reference-box">
+                        <p>
+                            <span>Voici la référence demandée :</span>
+                            <span><a id="reference">{!! $reference !!}</a></span>.
+                        </p>
+                        <p>Vérifier sur la <a href="{{ $url }}">page indiquée <i class="fas fa-external-link-alt"></i></a>.</p>
+                    </div>
+                </div>
+            </div>
+        @endif
         <section class="section">
             <div class="container">
                 <h2 class="title is-4">Obtenir la référence d’une page</h2>
