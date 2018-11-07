@@ -19,7 +19,7 @@
     vertical-align: super;
 }
 #reference-box {
-    padding-bottom: 1.5rem;
+    padding: 1.25rem 0 1.5rem 1.5rem;
     font-size: larger;
 }
 #reference-box > * {
@@ -28,7 +28,7 @@
 .can-copy::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    font-size: small;
+    font-size: x-small;
     vertical-align: super;
     content: " \f0c5";
 }

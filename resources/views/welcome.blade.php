@@ -27,7 +27,7 @@
                 <div class="container">
                     <div class="notification is-primary" id="reference-box">
                         <p>
-                            <span>Voici la référence demandée :</span>
+                            <span>Référence :</span>
                             <span><a id="reference">{!! $reference !!}</a></span>.
                         </p>
                         <p>Vérifier sur la <a href="{{ $url }}">page indiquée <i class="fas fa-external-link-alt"></i></a>.</p>
