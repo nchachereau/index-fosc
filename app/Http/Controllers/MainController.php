@@ -47,7 +47,6 @@ class MainController extends Controller
         } elseif (intval($year) < 1881 || intval($year) > 2001) {
             return redirect('/');
         }
-        $volume = intval($year) - 1882;
 
         $csv = Reader::createFromPath(resource_path("data/$year.csv"))
             ->setHeaderOffset(0);
@@ -66,8 +65,8 @@ class MainController extends Controller
         return view(
             'welcome',
             [
-                'reference' => "<i>Feuille officielle suisse du commerce</i>, vol. $volume, n<sup>o</sup> {$record['issue']}, {$record['date']}, p. {$record['page']}",
-                'url' => "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix",
+                'reference' => $this->formatReference($record),
+                'url' => $this->createLink($year, $suffix),
             ]
         );
     }
@@ -86,21 +85,30 @@ class MainController extends Controller
         $v->sometimes('p', 'required', function ($input) {
             return is_numeric($input->dt);
         });
-        $attr = $v->validate();
+        $v->validate();
 
-        if (is_numeric($attr['dt'])) {
-            $year = intval($attr['dt']);
+        $args = [];
+        if ($request->filled('p')) {
+            $args['page'] = $request->input('p');
+        }
+        if ($request->filled('n')) {
+            $args['issue'] = $request->input('n');
+        }
+
+        if (is_numeric($request->input('dt'))) {
+            $year = intval($request->input('dt'));
         } else {
-            $dt = \DateTime::createFromFormat('d#m#Y', $attr['dt']);
-            $year = $dt->format('Y');
+            $args['date'] = \DateTime::createFromFormat('d#m#Y', $request->input('dt'));
+            $year = $args['date']->format('Y');
+            $args['date'] = $args['date']->format('d.m.Y');
         }
 
         $csv = Reader::createFromPath(resource_path("data/$year.csv"))
             ->setHeaderOffset(0);
 
         foreach ($csv as $record) {
-            $correctDate = (!isset($dt) || $dt->format('d.m.Y') == $record['date']);
-            $correctIssue = ($record['issue'] == $request->input('n', ''));
+            $correctDate = (!isset($args['date']) || $args['date'] == $record['date']);
+            $correctIssue = (!$request->filled('n') || $record['issue'] == $request->input('n', ''));
             $correctPage = ($record['page'] == $request->input('p', -1));
 
             if ($correctPage && $correctDate && $correctIssue) {
@@ -115,7 +123,7 @@ class MainController extends Controller
                 if (!isset($alternativeResults['issue'])) {
                     $alternativeResults['issue'] = $record;
                 }
-            } elseif (isset($dt) && $correctDate) {
+            } elseif (isset($args['date']) && $correctDate) {
                 if (!isset($alternativeResults['date'])) {
                     $alternativeResults['date'] = $record;
                 }
@@ -126,35 +134,36 @@ class MainController extends Controller
         $messages = [];
         if (isset($result)) {
             $suffix = $result['suffix'];
-            $urls[] = "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix";
+            $pages[] = [
+                'url' => $this->createLink($year, $suffix),
+                'reference' => $this->formatReference($result),
+            ];
         } else {
-            if ($request->filled('p')) {
-                if (!empty($alternativeResults['page'])) {
-                    $suffix = $alternativeResults['page']['suffix'];
-                    $urls[] = "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix";
+            $messageCollection = [
+                'page' => 'aucune page',
+                'date' => 'aucun cahier daté du',
+                'issue' => 'aucun cahier numéroté',
+            ];
+            $inputCollection = [
+                'page' => 'p. ',
+                'date' => '',
+                'issue' => 'n<sup>o</sup> ',
+            ];
+            foreach ($args as $arg => $value) {
+                if (!empty($alternativeResults[$arg])) {
+                    $suffix = $alternativeResults[$arg]['suffix'];
+                    $pages[] = [
+                        'url' => $this->createLink($year, $suffix),
+                        'reference' => $this->formatReference($alternativeResults[$arg]),
+                        'input' => $inputCollection[$arg] . e($value),
+                    ];
                 } else {
-                    $messages[] = 'aucune page ' . $request->input('p');
-                }
-            }
-            if (isset($dt)) {
-                if (!empty($alternativeResults['date'])) {
-                    $suffix = $alternativeResults['date']['suffix'];
-                    $urls[] = "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix";
-                } else {
-                    $messages[] = 'aucun cahier daté du ' . $dt->format('j.n.Y');
-                }
-            }
-            if ($request->filled('n')) {
-                if (!empty($alternativeResults['issue'])) {
-                    $suffix = $alternativeResults['issue']['suffix'];
-                    $urls[] = "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix";
-                } else {
-                    $messages[] = 'aucun cahier numéroté ' . $request->input('n');
+                    $messages[] = $messageCollection[$arg] . ' ' . $value;
                 }
             }
         }
 
-        if (empty($urls)) {
+        if (empty($pages)) {
             return redirect('/')->with(
                 'error',
                 "Aucune page trouvée dans la FOSC de $year : " . implode(', ', $messages) . '.'
@@ -164,9 +173,27 @@ class MainController extends Controller
         return view(
             'welcome',
             [
-                'urls' => $urls,
+                'pages' => $pages,
                 'messages' => $messages,
+                'year' => $year,
             ]
         );
+    }
+
+    private function formatReference($record)
+    {
+        $date = \DateTime::createFromFormat('d#m#Y', $record['date']);
+        $volume = intval($date->format('Y')) - 1882;
+        $date = $date->format('j.n.Y');
+        $issue = $record['issue'];
+        $page = $record['page'];
+
+        return "<i>Feuille officielle suisse du commerce</i>, vol. $volume, n<sup>o</sup> $issue, $date, p. $page";
+    }
+
+    private function createLink($year, $suffix)
+    {
+        $volume = intval($year) - 1882;
+        return "https://www.e-periodica.ch/digbib/view?pid=sha-001:$year:$volume::$suffix#$suffix";
     }
 }

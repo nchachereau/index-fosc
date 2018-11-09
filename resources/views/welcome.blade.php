@@ -35,30 +35,38 @@
         @if (!empty($reference))
             <div class="section">
                 <div class="container">
-                    <div class="notification is-primary" id="reference-box">
+                    <div class="notification is-primary content" id="reference-box">
                         <p>
                             <span>Référence :</span>
-                            <span><a id="reference">{!! $reference !!}</a></span>.
+                            <span><a class="reference">{!! $reference !!}</a></span>.
                         </p>
                         <p>Vérifier à l’<a href="{{ $url }}">adresse indiquée <i class="fas fa-external-link-alt"></i></a>.</p>
                     </div>
                 </div>
             </div>
         @endif
-        @if (!empty($urls))
+        @if (!empty($pages))
             <div class="section">
                 <div class="container">
-                    <div class="notification is-primary" id="reference-box">
-                        <ul>
-                            @foreach ($urls as $url)
-                                <li><a href="{{ $url }}">{{ $url }}</a></li>
-                            @endforeach
-                        </ul>
-                        <ul>
-                            @foreach ($messages as $msg)
-                                <li>{{ $msg }}</li>
-                            @endforeach
-                        </ul>
+                    <div class="notification is-primary content" id="reference-box">
+                        @if (count($pages) == 1 && empty($messages))
+                            <p>La version numérisée de la <span><a class="reference">{!! $pages[0]['reference'] !!}</a></span> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }} <i class="fas fa-external-link-alt"></i></a>.</p>
+                        @else
+                            <p>Votre requête était ambiguë.
+                            @if (count($pages) == 1)
+                                La page suivante a été trouvée : <a href="{{ $pages[0]['url'] }}">{!! $pages[0]['reference'] !!} <i class="fas fa-external-link-alt"></i></a></p>
+                            @else
+                                Les références suivantes ont été trouvées :</p>
+                                <ul>
+                                    @foreach ($pages as $page)
+                                        <li>{!! $page['input'] !!} : <a href="{{ $page['url'] }}">{!! $page['reference'] !!} <i class="fas fa-external-link-alt"></i></a></li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                            @if (!empty($messages))
+                                <p>Dans la collection de {{ $year }}, nous n’avons en revanche pu trouver {{ implode(' et ', $messages) }}.</p>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

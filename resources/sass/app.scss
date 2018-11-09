@@ -19,11 +19,11 @@
     vertical-align: super;
 }
 #reference-box {
-    padding: 1.25rem 0 1.5rem 1.5rem;
+    padding: 1.25rem 1.5rem 1.5rem 1.5rem;
     font-size: larger;
 }
-#reference-box > * {
-    padding: 0.3rem;
+.can-copy {
+    padding-right: 0.4rem;
 }
 .can-copy::after {
     font-family: "Font Awesome 5 Free";
