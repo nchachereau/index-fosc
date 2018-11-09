@@ -186,9 +186,15 @@ class MainController extends Controller
         $volume = intval($date->format('Y')) - 1882;
         $date = $date->format('j.n.Y');
         $issue = $record['issue'];
+        if ($volume == 1) {
+            $issue = explode('.', $issue);
+            $issue = ['I<sup>re</sup>', 'II<sup>e</sup>'][intval($issue[1]) - 1] . ' partie, n<sup>o</sup> ' . $issue[0];
+        } else {
+            $issue = 'n<sup>o</sup> ' . $issue;
+        }
         $page = $record['page'];
 
-        return "<i>Feuille officielle suisse du commerce</i>, vol. $volume, n<sup>o</sup> $issue, $date, p. $page";
+        return "<i>Feuille officielle suisse du commerce</i>, vol. $volume, $issue, $date, p. $page";
     }
 
     private function createLink($year, $suffix)
