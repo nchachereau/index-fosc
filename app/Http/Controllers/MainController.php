@@ -20,7 +20,7 @@ class MainController extends Controller
         $url = $request->input('url');
         session(['url' => $url]);
         if (!preg_match(
-            '/https:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
+            '/https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
             'sha-00([12]):(\d{4}):\d+::(\d+)(?:#(\d+))?$/',
             $url,
             $matches
@@ -29,7 +29,7 @@ class MainController extends Controller
             return redirect('/')->with('error', "L’adresse $url ne correspond à aucune page connue.");
         }
 
-        $suffix = (isset($matches[5])) ? $matches[5] : $matches[4];
+        $suffix = (isset($matches[4])) ? $matches[4] : $matches[3];
         return redirect()->route(
             'get_reference',
             [
