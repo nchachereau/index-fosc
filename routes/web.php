@@ -14,3 +14,4 @@
 Route::get('/', 'MainController@home')->name('home');
 Route::get('/ref/{year}/{suffix}', 'MainController@reference')->name('get_reference');
 Route::get('/ref/', 'MainController@getSuffix')->name('get_suffix');
+Route::get('/page/', 'MainController@page')->name('get_page');

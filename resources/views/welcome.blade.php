@@ -23,6 +23,15 @@
                     de la page trouvée, ainsi que d’ouvrir la page correspondant à une référence. </span><a href="#">Plus d’informations <i class="fas fa-arrow-down"></i></a></p>
             </div>
         </section>
+        @if (session('error'))
+            <div class="container">
+                <div class="message is-danger">
+                    <div class="message-body">
+                        {{ session('error') }}
+                    </div>
+                </div>
+            </div>
+        @endif
         @if (!empty($reference))
             <div class="section">
                 <div class="container">
@@ -36,11 +45,20 @@
                 </div>
             </div>
         @endif
-        @if (session('error'))
-            <div class="container">
-                <div class="message is-danger">
-                    <div class="message-body">
-                        {{ session('error') }}
+        @if (!empty($urls))
+            <div class="section">
+                <div class="container">
+                    <div class="notification is-primary" id="reference-box">
+                        <ul>
+                            @foreach ($urls as $url)
+                                <li><a href="{{ $url }}">{{ $url }}</a></li>
+                            @endforeach
+                        </ul>
+                        <ul>
+                            @foreach ($messages as $msg)
+                                <li>{{ $msg }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -53,7 +71,7 @@
                         <div class="field column">
                             <label class="label" for="url">Adresse URL de la page numérisée sur e-periodica</label>
                             <div class="control is-expanded">
-                                <input class="input" name="url" id="url" type="text" value="" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86">
+                                <input class="input" name="url" id="url" type="text" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86">
                             </div>
                         </div>
                     </div>
@@ -66,30 +84,33 @@
         <section class="section">
             <div class="container">
                 <h2 class="title is-4">Trouver une page numérisée</h2>
-                <form action="">
+                <form action="{{ route('get_page') }}">
                     <div class="columns">
-                        <div class="column">
-                            <label class="label required" for="dt" title="Veuillez compléter ce champ.">Année ou date</label>
+                        <div class="field column">
+                            <label class="label" for="dt" title="Veuillez compléter ce champ."><span class="required">Année</span> ou date</label>
                             <div class="control">
-                                <input class="input" name="dt" id="dt" type="text" required placeholder="1887">
+                                <input class="input {{ $errors->has('dt') ? 'is-danger' : '' }}" name="dt" id="dt" type="text" placeholder="1.2.1887" value="{{ old('dt') }}">
                             </div>
+                            @include('field-error', ['field' => 'dt'])
                         </div>
-                        <div class="column">
+                        <div class="field column">
                             <label class="label" for="n">Cahier</label>
                             <div class="control">
-                                <input class="input" name="n" id="n" type="text" placeholder="10">
+                                <input class="input {{ $errors->has('n') ? 'is-danger' : '' }}" name="n" id="n" type="text" placeholder="10" value=>
+                                @include('field-error', ['field' => 'n'])
                             </div>
                         </div>
-                        <div class="column">
-                            <label class="label required" for="p" title="Veuillez compléter ce champ.">Page</label>
+                        <div class="field column">
+                            <label class="label" for="p" title="Veuillez compléter ce champ.">Page</label>
                             <div class="control">
-                                <input class="input" name="p" id="p" type="text" required placeholder="73">
+                                <input class="input {{ $errors->has('p') ? 'is-danger' : '' }}" name="p" id="p" type="text" placeholder="73">
                             </div>
+                            @include('field-error', ['field' => 'p'])
                         </div>
                     </div>
                     <div class="">
                         <div class="control">
-                            <input class="button is-primary" type="submit" value="Ouvrir la page">
+                            <input class="button is-primary" type="submit" value="Trouver la page">
                         </div>
                     </div>
                 </form>
