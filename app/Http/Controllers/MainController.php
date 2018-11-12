@@ -22,7 +22,7 @@ class MainController extends Controller
         session(['url' => $url]);
         if (!preg_match(
             '/https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
-            'sha-00([12]):(\d{4}):\d+::(\d+)(?:#(\d+))?$/',
+            'sha-00([12]):(\d{4}):\d+(?:::(\d+))?(?:#(\d+))?$/',
             $url,
             $matches
         )
@@ -30,7 +30,11 @@ class MainController extends Controller
             return redirect('/')->with('error', "L’adresse $url ne correspond à aucune page connue.");
         }
 
-        $suffix = (isset($matches[4])) ? $matches[4] : $matches[3];
+        if (isset($matches[3])) {
+            $suffix = (isset($matches[4])) ? $matches[4] : $matches[3];
+        } else {
+            $suffix = 1;
+        }
         return redirect()->route(
             'get_reference',
             [
@@ -52,6 +56,11 @@ class MainController extends Controller
             ->setHeaderOffset(0);
 
         foreach ($csv as $record) {
+            if ($suffix == '1') {
+                // special case, not a real suffix, just return first line
+                $result = $record;
+                $suffix = $record['suffix'];
+            }
             if ($record['suffix'] == $suffix) {
                 $result = $record;
                 break;
