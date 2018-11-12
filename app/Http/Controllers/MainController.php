@@ -115,21 +115,27 @@ class MainController extends Controller
             ->setHeaderOffset(0);
 
         foreach ($csv as $record) {
-            $correctDate = (!isset($args['date']) || $args['date']->format('d.m.Y') == $record['date']);
-            $correctIssue = (!isset($args['issue']) || $record['issue'] == $args['issue']);
-            $correctPage = ($record['page'] == $request->input('p', -1));
+            $correct = [
+                'date' => (!isset($args['date']) || $args['date']->format('d.m.Y') == $record['date']),
+                'issue' => (!isset($args['issue']) || $record['issue'] == $args['issue']),
+                'page' => ($record['page'] == $request->input('p', -1)),
+            ];
 
-            if ($correctPage && $correctDate && $correctIssue) {
-                if (isset($args['issue']) || isset($args['date'])) {
+            if (count($args) > 1) {
+                // filter values asked for
+                $matches = array_intersect_key($correct, $args);
+                if (count(array_filter($matches)) == count($args)) {
+                    // perfect match
                     $result = $record;
                     $alternativeResults = [];
                     break;
                 }
             }
 
-            if (isset($args['page']) && $correctPage) {
+            if (isset($args['page']) && $correct['page']) {
                 $alternativeResults['page'][] = $record;
-            } elseif (isset($args['issue']) && $correctIssue) {
+            }
+            if (isset($args['issue']) && $correct['issue']) {
                 if (!isset($alternativeResults['issue'])) {
                     $alternativeResults['issue'][] = $record;
                 }
@@ -147,7 +153,8 @@ class MainController extends Controller
                         }
                     }
                 }
-            } elseif (isset($args['date']) && $correctDate) {
+            }
+            if (isset($args['date']) && $correct['date']) {
                 if (!isset($alternativeResults['date'])) {
                     $alternativeResults['date'][] = $record;
                 }
