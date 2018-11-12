@@ -108,24 +108,26 @@ class MainController extends Controller
 
         foreach ($csv as $record) {
             $correctDate = (!isset($args['date']) || $args['date'] == $record['date']);
-            $correctIssue = (!$request->filled('n') || $record['issue'] == $request->input('n', ''));
+            $correctIssue = (!isset($args['issue']) || $record['issue'] == $request->input('n', ''));
             $correctPage = ($record['page'] == $request->input('p', -1));
 
             if ($correctPage && $correctDate && $correctIssue) {
-                $result = $record;
-                $alternativeResults = [];
-                break;
+                if (isset($args['issue']) || isset($args['date'])) {
+                    $result = $record;
+                    $alternativeResults = [];
+                    break;
+                }
             }
 
-            if ($request->filled('p') && $correctPage) {
-                $alternativeResults['page'] = $record;
-            } elseif ($request->filled('n') && $correctIssue) {
+            if (isset($args['page']) && $correctPage) {
+                $alternativeResults['page'][] = $record;
+            } elseif (isset($args['issue']) && $correctIssue) {
                 if (!isset($alternativeResults['issue'])) {
-                    $alternativeResults['issue'] = $record;
+                    $alternativeResults['issue'][] = $record;
                 }
             } elseif (isset($args['date']) && $correctDate) {
                 if (!isset($alternativeResults['date'])) {
-                    $alternativeResults['date'] = $record;
+                    $alternativeResults['date'][] = $record;
                 }
             }
         }
@@ -151,12 +153,14 @@ class MainController extends Controller
             ];
             foreach ($args as $arg => $value) {
                 if (!empty($alternativeResults[$arg])) {
-                    $suffix = $alternativeResults[$arg]['suffix'];
-                    $pages[] = [
-                        'url' => $this->createLink($year, $suffix),
-                        'reference' => $this->formatReference($alternativeResults[$arg]),
-                        'input' => $inputCollection[$arg] . e($value),
-                    ];
+                    foreach ($alternativeResults[$arg] as $res) {
+                        $suffix = $res['suffix'];
+                        $pages[] = [
+                            'url' => $this->createLink($year, $suffix),
+                            'reference' => $this->formatReference($res),
+                            'input' => $inputCollection[$arg] . e($value),
+                        ];
+                    }
                 } else {
                     $messages[] = $messageCollection[$arg] . ' ' . $value;
                 }
