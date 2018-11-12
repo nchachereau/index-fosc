@@ -109,14 +109,13 @@ class MainController extends Controller
         } else {
             $args['date'] = \DateTime::createFromFormat('d#m#Y', $request->input('dt'));
             $year = $args['date']->format('Y');
-            $args['date'] = $args['date']->format('d.m.Y');
         }
 
         $csv = Reader::createFromPath(resource_path("data/$year.csv"))
             ->setHeaderOffset(0);
 
         foreach ($csv as $record) {
-            $correctDate = (!isset($args['date']) || $args['date'] == $record['date']);
+            $correctDate = (!isset($args['date']) || $args['date']->format('d.m.Y') == $record['date']);
             $correctIssue = (!isset($args['issue']) || $record['issue'] == $args['issue']);
             $correctPage = ($record['page'] == $request->input('p', -1));
 
@@ -174,6 +173,9 @@ class MainController extends Controller
                 'date' => '',
                 'issue' => 'n<sup>o</sup> ',
             ];
+            if (isset($args['date'])) {
+                $args['date'] = $args['date']->format('j.n.Y');
+            }
             foreach ($args as $arg => $value) {
                 if (!empty($alternativeResults[$arg])) {
                     foreach ($alternativeResults[$arg] as $res) {
