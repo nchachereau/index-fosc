@@ -117,7 +117,7 @@ class MainController extends Controller
 
         foreach ($csv as $record) {
             $correctDate = (!isset($args['date']) || $args['date'] == $record['date']);
-            $correctIssue = (!isset($args['issue']) || $record['issue'] == $request->input('n', ''));
+            $correctIssue = (!isset($args['issue']) || $record['issue'] == $args['issue']);
             $correctPage = ($record['page'] == $request->input('p', -1));
 
             if ($correctPage && $correctDate && $correctIssue) {
@@ -133,6 +133,20 @@ class MainController extends Controller
             } elseif (isset($args['issue']) && $correctIssue) {
                 if (!isset($alternativeResults['issue'])) {
                     $alternativeResults['issue'][] = $record;
+                }
+            } elseif (isset($args['issue']) && $year == 1883) {
+                if ($args['issue'] == explode('.', $record['issue'])[0]) {
+                    if (!isset($alternativeResults['issue'])) {
+                        $alternativeResults['issue'][] = $record;
+                    } else {
+                        $knownIssues = array_reduce($alternativeResults['issue'], function ($c, $i) {
+                            $c[] = $i['issue'];
+                            return $c;
+                        }, []);
+                        if (!in_array($record['issue'], $knownIssues)) {
+                            $alternativeResults['issue'][] = $record;
+                        }
+                    }
                 }
             } elseif (isset($args['date']) && $correctDate) {
                 if (!isset($alternativeResults['date'])) {
