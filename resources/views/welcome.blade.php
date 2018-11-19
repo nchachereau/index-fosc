@@ -14,7 +14,7 @@
             <div class="container">
                 <h1 class="title is-3">Index numérique de la Feuille officielle suisse du commerce (1883-2001)</h1>
                 <p class="content"><span class="is-hidden-touch">Grâce à sa numérisation, la
-                    <a href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille
+                    <a target="_blank" href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille
                         officielle suisse du commerce</i> (FOSC)
                         <i class="fas fa-external-link-alt"></i></a>
                     est appelée à devenir une ressource importante pour étudier l’histoire
