@@ -1,28 +1,49 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     // progressive enhancement: only add if window.getSelection() is supported
-    if (window.getSelection) {
+    if (window.getSelection && document.queryCommandSupported('copy')) {
         // make link clickable and make click copy to clipboard
         var refs = document.getElementsByClassName('reference');
         for (var i = 0; i < refs.length; i++) {
-            console.log(refs[i]);
-            e = refs[i];
-            e.setAttribute('href', '#');
-            e.addEventListener('click', function(event) {
-                copyText(this);
+            input = refs[i];
+            // autofocus
+            input.addEventListener('click', function(event) {
+                if (this.classList.contains('focused')) return;
+                this.classList.add('focused');
+                this.select();
+            });
+            input.addEventListener('blur', function (event) {
+                this.classList.remove('focused');
+            });
+            // create button
+            var copyLink = document.createElement('a');
+            copyLink.setAttribute('href', '#');
+            copyLink.appendChild(document.createTextNode("Copier la référence"));
+            var icon = document.createElement('i');
+            icon.classList.add('fas');
+            icon.classList.add('fa-copy');
+            copyLink.appendChild(icon);
+            copyLink.classList.add('button');
+            copyLink.setAttribute('data-tooltip', 'La référence a été placée dans le presse-papier.');
+            // add events
+            copyLink.addEventListener('click', function(event) {
+                input.select();
+                document.execCommand('copy');
+                this.focus();
+                this.classList.add('tooltip');
+                this.classList.add('is-tooltip-active');
                 event.preventDefault();
             });
-            // add icon
-            e.classList.add('can-copy');
-            // add tooltip
-            p = e.parentNode;
-            p.classList.add('tooltip');
-            p.setAttribute('data-tooltip', 'Cliquez pour copier');
-            e.addEventListener('focus', function() {
-                p.classList.add('is-tooltip-active');
+            copyLink.addEventListener('mouseleave', function (event) {
+                this.classList.remove('tooltip');
+                this.classList.remove('is-tooltip-active');
             });
-            e.addEventListener('blur', function() {
-                p.classList.remove('is-tooltip-active');
+            copyLink.addEventListener('blur', function (event) {
+                this.classList.remove('tooltip');
+                this.classList.remove('is-tooltip-active');
             });
+            // add button
+            p = input.parentNode.nextElementSibling;
+            p.insertBefore(copyLink, p.firstChild);
         }
     }
     // add link to close notification
@@ -43,14 +64,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     };
 });
-
-// function to copy to clipboard
-function copyText(elem) {
-    var range = document.createRange();
-    var sel = window.getSelection();
-    range.selectNodeContents(elem);
-    sel.removeAllRanges();
-    sel.addRange(range);
-    document.execCommand('copy');
-    sel.removeAllRanges();
-}

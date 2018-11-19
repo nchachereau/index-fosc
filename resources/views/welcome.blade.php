@@ -38,9 +38,10 @@
                     <div class="notification is-primary content" id="reference-box">
                         <p>
                             <span>Référence :</span>
-                            <span><a class="reference">{!! $reference !!}</a></span>.
+                            <input class="reference" type="text" value="{{ $reference }}." readonly style="width: {{ 47 + intval(mb_strlen($reference) - 62) }}ch">
                         </p>
-                        <p>Vérifier à l’<a href="{{ $url }}">adresse indiquée <i class="fas fa-external-link-alt"></i></a>.</p>
+                        <p>
+                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a></p>
                     </div>
                 </div>
             </div>
@@ -50,7 +51,8 @@
                 <div class="container">
                     <div class="notification is-primary content" id="reference-box">
                         @if (count($pages) == 1 && empty($messages))
-                            <p>La version numérisée de la <span><a class="reference">{!! $pages[0]['reference'] !!}</a></span> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }} <i class="fas fa-external-link-alt"></i></a>.</p>
+                            <p>La version numérisée de la <input class="reference" type="text" value="{{ $pages[0]['reference'] }}" style="width: {{ 47 + intval(mb_strlen($pages[0]['reference']) - 64) }}ch"> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }}</a>.</p>
+                            <p><a target="_blank" class="button" href="{{ $pages[0]['url'] }}">Ouvrir la page (nouvel onglet) <i class="fas fa-external-link-alt"></i></a></p>
                         @else
                             <p>Votre requête était ambiguë.
                             @if (count($pages) == 1)
