@@ -41,7 +41,7 @@
                             <input class="reference" type="text" value="{{ $reference }}." readonly style="width: {{ 47 + intval(mb_strlen($reference) - 62) }}ch">
                         </p>
                         <p>
-                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a></p>
+                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée (nouvel onglet) <i class="fas fa-external-link-alt"></i></a></p>
                     </div>
                 </div>
             </div>
