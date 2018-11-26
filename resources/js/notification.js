@@ -1,20 +1,41 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     // progressive enhancement: only add if window.getSelection() is supported
     if (window.getSelection && document.queryCommandSupported('copy')) {
-        // make link clickable and make click copy to clipboard
+        // handle reference (size and copy)
         var refs = document.getElementsByClassName('reference');
         for (var i = 0; i < refs.length; i++) {
-            input = refs[i];
-            // autofocus
-            input.addEventListener('click', function(event) {
-                if (this.classList.contains('focused')) return;
-                this.classList.add('focused');
-                this.select();
+            el = refs[i];
+
+            // resize dynamically
+            window.addEventListener('resize', function() {
+                console.log('resize');
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
             });
-            input.addEventListener('blur', function (event) {
-                this.classList.remove('focused');
-            });
-            // create button
+            // initial size
+            setTimeout(function() {
+                var styles = window.getComputedStyle(el);
+                var canvas = document.createElement("canvas");
+                if (canvas.getContext && canvas.getContext("2d")) {
+                    var context = canvas.getContext("2d")
+                    context.font = styles.getPropertyValue('font-size') + ' ' + styles.getPropertyValue('font-family');
+                    el.style.width = (Math.floor(context.measureText(el.value).width) + 10) + 'px';
+                    console.log(el.style.width);
+                }
+            }, 25);
+            setTimeout(function() {
+                var styles = window.getComputedStyle(el);
+                var lineHeight = parseInt(styles.getPropertyValue('line-height'));
+                var realHeight = parseInt(styles.getPropertyValue('height'));
+                console.log(lineHeight);
+                console.log(realHeight);
+                console.log(el.scrollHeight);
+                if (el.scrollHeight > realHeight) {
+                    el.style.height = el.scrollHeight + 'px';
+                }
+            }, 50);
+
+            // create copy button
             var copyLink = document.createElement('a');
             copyLink.setAttribute('href', '#');
             copyLink.appendChild(document.createTextNode("Copier la référence"));
@@ -26,26 +47,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
             copyLink.setAttribute('data-tooltip', 'La référence a été placée dans le presse-papier.');
             // add events
             copyLink.addEventListener('click', function(event) {
-                input.select();
+                el.select();
                 document.execCommand('copy');
+                el.blur();
                 this.focus();
                 this.classList.add('tooltip');
                 this.classList.add('is-tooltip-active');
                 event.preventDefault();
             });
-            copyLink.addEventListener('mouseleave', function (event) {
+            copyLink.addEventListener('mouseleave', function(event) {
                 this.classList.remove('tooltip');
                 this.classList.remove('is-tooltip-active');
             });
-            copyLink.addEventListener('blur', function (event) {
+            copyLink.addEventListener('blur', function(event) {
                 this.classList.remove('tooltip');
                 this.classList.remove('is-tooltip-active');
             });
             // add button
-            p = input.parentNode.nextElementSibling;
+            p = el.parentNode.nextElementSibling;
             p.insertBefore(copyLink, p.firstChild);
         }
     }
+
     // add link to close notification
     var e = document.getElementById('reference-box');
     var closeLink = document.createElement('a');

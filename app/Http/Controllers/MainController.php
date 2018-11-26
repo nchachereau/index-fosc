@@ -226,7 +226,7 @@ class MainController extends Controller
             $issue = explode('.', $issue);
             $issue = ['I<sup>re</sup>', 'II<sup>e</sup>'][intval($issue[1]) - 1] . ' partie, nᵒ ' . $issue[0];
         } else {
-            $issue = 'nᵒ ' . $issue;
+            $issue = 'nᵒ ' . $issue;
         }
         $page = $record['page'];
 

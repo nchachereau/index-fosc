@@ -23,18 +23,23 @@
     font-size: larger;
     box-shadow: 0 0.2rem 0.6rem #aaa;
 }
-#reference-box input {
-    border: dotted #fff;
-    border-width: 0 0 1px;
-    background: transparent;
+.reference {
+    border: 0;
+    background: rgba(0, 0, 0, 0.2);
     color: #fff;
     font-size: inherit;
+    line-height: unset;
+    vertical-align: top;
+    padding-left: 0.4ch;
+    max-width: 100%;
+    resize: none;
+    overflow: hidden;
 }
-#reference-box input::selection {
+.reference::selection {
     background: rgba(255, 255, 255, 0.9);
     color: #000;
 }
-#reference-box input::-moz-selection {
+.reference::-moz-selection {
     background: rgba(255, 255, 255, 0.9);
     color: #000;
 }

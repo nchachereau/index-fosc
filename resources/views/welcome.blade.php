@@ -13,14 +13,12 @@
         <section class="section is-medium">
             <div class="container">
                 <h1 class="title is-3">Index numérique de la Feuille officielle suisse du commerce (1883-2001)</h1>
-                <p class="content"><span class="is-hidden-touch">Grâce à sa numérisation, la
+                <p class="content"><span class="is-hidden-touch">Ce qu'il manquait à la version numérisée de la
                     <a target="_blank" href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille
                         officielle suisse du commerce</i> (FOSC)
-                        <i class="fas fa-external-link-alt"></i></a>
-                    est appelée à devenir une ressource importante pour étudier l’histoire
-                    économique et sociale de la Suisse contemporaine. À l’usage, il manque
-                    pourtant la possibilité d’obtenir rapidement la référence bibliographique
-                    de la page trouvée, ainsi que d’ouvrir la page correspondant à une référence. </span><a href="#">Plus d’informations <i class="fas fa-arrow-down"></i></a></p>
+                        <i class="fas fa-external-link-alt"></i></a>:
+                    un moyen de passer rapidement d'une page scannée à la référence bibliographique - et
+                    inversément. </span><a class="is-hidden-desktop" href="#">Plus d’informations <i class="fas fa-arrow-down"></i></a></p>
             </div>
         </section>
         @if (session('error'))
@@ -38,10 +36,10 @@
                     <div class="notification is-primary content" id="reference-box">
                         <p>
                             <span>Référence :</span>
-                            <input class="reference" type="text" value="{{ $reference }}." readonly style="width: {{ 47 + intval(mb_strlen($reference) - 62) }}ch">
+                            <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($reference) - 63) }}ch">{{ $reference }}.</textarea>
                         </p>
                         <p>
-                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée (nouvel onglet) <i class="fas fa-external-link-alt"></i></a></p>
+                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a></p>
                     </div>
                 </div>
             </div>
@@ -51,8 +49,8 @@
                 <div class="container">
                     <div class="notification is-primary content" id="reference-box">
                         @if (count($pages) == 1 && empty($messages))
-                            <p>La version numérisée de la <input class="reference" type="text" value="{{ $pages[0]['reference'] }}" style="width: {{ 47 + intval(mb_strlen($pages[0]['reference']) - 64) }}ch"> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }}</a>.</p>
-                            <p><a target="_blank" class="button" href="{{ $pages[0]['url'] }}">Ouvrir la page (nouvel onglet) <i class="fas fa-external-link-alt"></i></a></p>
+                            <p>La version numérisée de la <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($pages[0]['reference'])) }}ch">{{ $pages[0]['reference'] }}</textarea> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }}</a>.</p>
+                            <p><a target="_blank" class="button" href="{{ $pages[0]['url'] }}">Ouvrir la page <i class="fas fa-external-link-alt"></i></a></p>
                         @else
                             <p>Votre requête était ambiguë.
                             @if (count($pages) == 1)
@@ -79,7 +77,7 @@
                 <form method="get" action="{{ route('get_suffix') }}">
                     <div class="columns">
                         <div class="field column">
-                            <label class="label" for="url">Adresse URL de la page numérisée sur e-periodica</label>
+                            <label class="label" for="url">URL de la page sur e-periodica</label>
                             <div class="control is-expanded">
                                 <input class="input" name="url" id="url" type="text" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86">
                             </div>
@@ -97,7 +95,7 @@
                 <form action="{{ route('get_page') }}">
                     <div class="columns">
                         <div class="field column">
-                            <label class="label" for="dt" title="Veuillez compléter ce champ."><span class="required">Année</span> ou date</label>
+                            <label class="label" for="dt" title="Veuillez compléter ce champ."><span class="required">Année</span> ou date de la FOSC</label>
                             <div class="control">
                                 <input class="input {{ $errors->has('dt') ? 'is-danger' : '' }}" name="dt" id="dt" type="text" placeholder="1.2.1887" value="{{ old('dt') }}">
                             </div>
