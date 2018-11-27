@@ -79,7 +79,7 @@
                         <div class="field column">
                             <label class="label" for="url">URL de la page sur e-periodica</label>
                             <div class="control is-expanded">
-                                <input class="input" name="url" id="url" type="text" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86" value="{{ isset($url) ? $url : '' }}">
+                                <input class="input" name="url" id="url" type="text" placeholder="https://www.e-periodica.ch/digbib/view?pid=sha-001:1887:5#86">
                             </div>
                         </div>
                     </div>
