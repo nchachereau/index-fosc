@@ -20,13 +20,66 @@ class MainController extends Controller
         }
         $url = $request->input('url');
         session(['url' => $url]);
+
+        $example = 'par exemple <a href="' .
+            route('get_suffix', ['url' => 'https://www.e-periodica.ch/digbib/view?pid=sha-001:1896:14::412#412']) .
+            '">celle-ci</a> ?';
+
         if (!preg_match(
-            '/https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
+            '/^https?:\/\//',
+            $url
+        )) {
+            return redirect('/')->with(
+                'error',
+                e($url) . ' ne ressemble pas à une URL. ' .
+                'Et si vous essayiez avec une numérisation de la FOSC ' .
+                'sur le site e-periodica, ' . $example
+            );
+        }
+
+        if (!preg_match(
+            '/^https?:\/\/www\.e-periodica\.ch/',
+            $url
+        )) {
+            return redirect('/')->with(
+                'error',
+                'L’adresse ' . e($url) . ' n’est pas prise en charge. ' .
+                'Et si vous essayiez avec une numérisation de la FOSC ' .
+                'sur le site e-periodica, ' . $example
+            );
+        }
+
+        if (preg_match(
+            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/(doasearch|hitlist)/',
+            $url
+        )) {
+            return redirect('/')->with(
+                'error',
+                'Malheureusement, la page des résultats de recherche ' .
+                'n’est pas prise en charge. En effet, l’URL n’indique pas ' .
+                'quel numéro de la FOSC est affiché. ' .
+                'Ouvrez la page qui vous intéresse et indiquez-en l’URL ci-dessous.'
+            );
+        }
+
+        if (preg_match(
+            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=sha-002/',
+            $url
+        )) {
+            return redirect('/')->with(
+                'error',
+                'Désolé, les pages de <i>fosc.ch</i> (à partir de 2002) ne sont pas encore prises en charge.'
+            );
+        }
+
+        if (!preg_match(
+            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
             'sha-00([12]):(\d{4}):\d+(?:::(\d+))?(?:#(\d+))?$/',
             $url,
             $matches
         )
             ) {
+            $url = e($url);
             return redirect('/')->with('error', "L’adresse $url ne correspond à aucune page connue.");
         }
 
@@ -67,7 +120,7 @@ class MainController extends Controller
             }
         }
         if (empty($result)) {
-            $url = session()->pull('url');
+            $url = e(session()->pull('url'));
             return redirect('/')->with('error', "L’adresse $url ne correspond à aucune page connue.");
         }
 

@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="message is-danger">
                     <div class="message-body">
-                        {{ session('error') }}
+                        {!! session('error') !!}
                     </div>
                 </div>
             </div>
