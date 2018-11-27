@@ -35,7 +35,7 @@
                 <div class="container">
                     <div class="notification is-primary content" id="reference-box">
                         <p>
-                            <span>Référence :</span>
+                            <span>Référence de la page indiquée :</span>
                             <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($reference) - 63) }}ch">{{ $reference }}.</textarea>
                         </p>
                         <p>
