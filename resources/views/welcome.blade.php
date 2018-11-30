@@ -95,14 +95,14 @@
                 <form action="{{ route('get_page') }}">
                     <div class="columns">
                         <div class="field column">
-                            <label class="label" for="dt" title="Veuillez compléter ce champ."><span class="required">Année</span> ou date de la FOSC</label>
+                            <label class="label" for="dt" title="Veuillez compléter ce champ.">Année <span class="comment">(ou date exacte)</span></label>
                             <div class="control">
-                                <input class="input {{ $errors->has('dt') ? 'is-danger' : '' }}" name="dt" id="dt" type="text" placeholder="1.2.1887" value="{{ old('dt') }}">
+                                <input class="input {{ $errors->has('dt') ? 'is-danger' : '' }}" name="dt" id="dt" type="text" placeholder="1887" required value="{{ old('dt') }}">
                             </div>
                             @include('field-error', ['field' => 'dt'])
                         </div>
                         <div class="field column">
-                            <label class="label" for="n">Cahier</label>
+                            <label class="label" for="n">Cahier <span class="comment">(optionnel)</span></label>
                             <div class="control">
                                 <input class="input {{ $errors->has('n') ? 'is-danger' : '' }}" name="n" id="n" type="text" placeholder="10" value=>
                                 @include('field-error', ['field' => 'n'])

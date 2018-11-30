@@ -12,11 +12,9 @@
 .title {
     font-family: $family-secondary
 }
-.required::after {
-    content: "*";
-    color: #E37400;
-    font-size: x-small;
-    vertical-align: super;
+.comment {
+    font-style: italic;
+    font-weight: normal;
 }
 #reference-box {
     padding: 1.25rem 1.5rem 1.5rem 1.5rem;
