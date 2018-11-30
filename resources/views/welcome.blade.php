@@ -23,7 +23,7 @@
         </section>
         @if (session('error'))
             <div class="container">
-                <div class="message is-danger">
+                <div class="message is-warning">
                     <div class="message-body">
                         {!! session('error') !!}
                     </div>
