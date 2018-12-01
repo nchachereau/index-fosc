@@ -23,7 +23,7 @@ class MainController extends Controller
 
         $example = 'par exemple <a href="' .
             route('get_suffix', ['url' => 'https://www.e-periodica.ch/digbib/view?pid=sha-001:1896:14::412#412']) .
-            '">celle-ci</a> ?';
+            '">https://www.e-periodica.ch/digbib/view?pid=sha-001:1896:14::412#412</a> ?';
 
         if (!preg_match(
             '/^https?:\/\//',
