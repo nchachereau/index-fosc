@@ -16,6 +16,16 @@
     font-style: italic;
     font-weight: normal;
 }
+.notification .buttons > a:not(.button) {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+.notification .buttons > .button + a:not(.button) {
+    margin-left: 0.2rem;
+}
+p > .button {
+    top: -0.3rem;
+}
 #reference-box {
     padding: 1.25rem 1.5rem 1.5rem 1.5rem;
     font-size: larger;
@@ -45,7 +55,6 @@
     color: #fff;
     background: rgba(10, 10, 10, 0.2);
     border: 0;
-    margin: 2px;
 }
 .notification .button:focus, .notification .button:hover {
     background: rgba(10, 10, 10, 0.3);

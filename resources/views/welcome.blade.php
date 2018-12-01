@@ -38,8 +38,9 @@
                             <span>Référence de la page indiquée :</span>
                             <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($reference) - 63) }}ch">{{ $reference }}.</textarea>
                         </p>
-                        <p>
-                            <a target="_blank" class="button" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a></p>
+                        <div class="buttons">
+                            <a target="_blank" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
