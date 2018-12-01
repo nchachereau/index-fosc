@@ -65,7 +65,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
             // add button
             p = el.parentNode.nextElementSibling;
-            p.insertBefore(copyLink, p.firstChild);
+            if (p instanceof Element) {
+                p.insertBefore(copyLink, p.firstChild);
+            } else {
+                el.parentNode.appendChild(copyLink);
+            }
         }
     }
 

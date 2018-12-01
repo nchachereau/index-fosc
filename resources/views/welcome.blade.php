@@ -49,8 +49,10 @@
                 <div class="container">
                     <div class="notification is-primary content" id="reference-box">
                         @if (count($pages) == 1 && empty($messages))
-                            <p>La version numérisée de la <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($pages[0]['reference'])) }}ch">{{ $pages[0]['reference'] }}</textarea> se trouve à l’adresse <a href="{{ $pages[0]['url'] }}">{{ $pages[0]['url'] }}</a>.</p>
-                            <p><a target="_blank" class="button" href="{{ $pages[0]['url'] }}">Ouvrir la page <i class="fas fa-external-link-alt"></i></a></p>
+                            <p>
+                                La version numérisée de la référence indiquée se trouve à l’adresse :<br/> <a class="tooltip" target="_blank" href="{{ $pages[0]['url'] }}" data-tooltip="S’ouvre dans un nouvel onglet">{{ $pages[0]['url'] }} <i class="fas fa-external-link-alt"></i></a>.
+                            </p>
+                            <p>Il s’agit de la <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($pages[0]['reference'])) }}ch">{{ $pages[0]['reference'] }}.</textarea> </p>
                         @else
                             <p>Votre requête était ambiguë.
                             @if (count($pages) == 1)
