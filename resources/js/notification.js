@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             // resize dynamically
             window.addEventListener('resize', function() {
-                console.log('resize');
                 el.style.height = 'auto';
                 el.style.height = el.scrollHeight + 'px';
             });
@@ -20,16 +19,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var context = canvas.getContext("2d")
                     context.font = styles.getPropertyValue('font-size') + ' ' + styles.getPropertyValue('font-family');
                     el.style.width = (Math.floor(context.measureText(el.value).width) + 10) + 'px';
-                    console.log(el.style.width);
                 }
             }, 25);
             setTimeout(function() {
                 var styles = window.getComputedStyle(el);
                 var lineHeight = parseInt(styles.getPropertyValue('line-height'));
                 var realHeight = parseInt(styles.getPropertyValue('height'));
-                console.log(lineHeight);
-                console.log(realHeight);
-                console.log(el.scrollHeight);
                 if (el.scrollHeight > realHeight) {
                     el.style.height = el.scrollHeight + 'px';
                 }
