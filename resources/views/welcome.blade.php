@@ -57,12 +57,12 @@
                         @else
                             <p>Votre requête était ambiguë.
                             @if (count($pages) == 1)
-                                La page suivante a été trouvée : <a href="{{ $pages[0]['url'] }}">{!! $pages[0]['reference'] !!} <i class="fas fa-external-link-alt"></i></a></p>
+                                La page suivante a été trouvée : <a target="_blank" href="{{ $pages[0]['url'] }}">{!! $pages[0]['reference'] !!} <i class="fas fa-external-link-alt"></i></a></p>
                             @else
                                 Les références suivantes ont été trouvées :</p>
                                 <ul>
                                     @foreach ($pages as $page)
-                                        <li>{!! $page['input'] !!} : <a href="{{ $page['url'] }}">{!! $page['reference'] !!} <i class="fas fa-external-link-alt"></i></a></li>
+                                        <li>{!! $page['input'] !!} : <a target="_blank" href="{{ $page['url'] }}">{!! $page['reference'] !!} <i class="fas fa-external-link-alt"></i></a></li>
                                     @endforeach
                                 </ul>
                             @endif
