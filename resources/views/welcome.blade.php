@@ -39,7 +39,7 @@
                             <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($reference) - 63) }}ch">{{ $reference }}.</textarea>
                         </p>
                         <div class="buttons">
-                            <a target="_blank" href="{{ $url }}">Vérifier à l’adresse indiquée <i class="fas fa-external-link-alt"></i></a>
+                            @include('external-link', ['text' => 'Vérifier à l’adresse indiquée'])
                         </div>
                     </div>
                 </div>
@@ -51,18 +51,19 @@
                     <div class="notification is-primary content" id="reference-box">
                         @if (count($pages) == 1 && empty($messages))
                             <p>
-                                La version numérisée de la référence indiquée se trouve à l’adresse :<br/> <a class="tooltip" target="_blank" href="{{ $pages[0]['url'] }}" data-tooltip="S’ouvre dans un nouvel onglet">{{ $pages[0]['url'] }} <i class="fas fa-external-link-alt"></i></a>.
+                                La version numérisée de la référence indiquée se trouve à l’adresse :<br/>
+                                @include('external-link', ['url' => $pages[0]['url'], 'text' => $pages[0]['url'] ]).
                             </p>
                             <p>Il s’agit de la <textarea class="reference" readonly wrap="soft" rows=1 style="width: {{ 47 + intval(mb_strlen($pages[0]['reference'])) }}ch">{{ $pages[0]['reference'] }}.</textarea> </p>
                         @else
                             <p>Votre requête était ambiguë.
                             @if (count($pages) == 1)
-                                La page suivante a été trouvée : <a target="_blank" href="{{ $pages[0]['url'] }}">{!! $pages[0]['reference'] !!} <i class="fas fa-external-link-alt"></i></a></p>
+                                La page suivante a été trouvée : @include('external-link', ['url' => $pages[0]['url'], 'text' => $pages[0]['reference'] ])</p>
                             @else
                                 Les références suivantes ont été trouvées :</p>
                                 <ul>
                                     @foreach ($pages as $page)
-                                        <li>{!! $page['input'] !!} : <a target="_blank" href="{{ $page['url'] }}">{!! $page['reference'] !!} <i class="fas fa-external-link-alt"></i></a></li>
+                                        <li>{!! $page['input'] !!} : @include('external-link', ['url' => $page['url'], 'text' => $page['reference']])</li>
                                     @endforeach
                                 </ul>
                             @endif
