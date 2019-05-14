@@ -105,6 +105,18 @@
                             </div>
                             @include('field-error', ['field' => 'dt'])
                         </div>
+                        <div class="field column is-narrow">
+                            <label class="label" for="part">Partie</label>
+                            <div class="select {{ $errors->has('part') ? 'is-danger' : '' }}">
+                                <select name="part" id="part">
+                                    <option></option>
+                                    <option value="1" @if (old('part') == 1) selected @endif;>Iʳᵉ</option>
+                                    <option value="2" @if (old('part') == 2) selected @endif;>IIᵉ</option>
+                                </select>
+                                @include('field-error', ['field' => 'part'])
+                                <p class="help comment">Optionnel</p>
+                            </div>
+                        </div>
                         <div class="field column">
                             <label class="label" for="n">Cahier <span class="comment">(optionnel)</span></label>
                             <div class="control">
