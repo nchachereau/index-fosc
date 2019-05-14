@@ -164,6 +164,16 @@ class MainController extends Controller
             $year = $args['date']->format('Y');
         }
 
+        if ($year == 1899 && $request->input('p', -1) == 1073) {
+            return redirect('/')->with(
+                'error',
+                '<p>La page 1073 de l’année 1899 de la FOSC aurait dû se trouver à l’adresse: <br>' .
+                'https://www.e-periodica.ch/digbib/view?pid=sha-001:1899:17::1342#1342</p>' .
+                '<p>Malheureusement, c’est la page 67 qui a été numérisée à sa place. ' .
+                'Le problème va être signalé à la plateforme e-periodica.</p>'
+            );
+        }
+
         $csv = Reader::createFromPath(resource_path("data/$year.csv"))
             ->setHeaderOffset(0);
 
