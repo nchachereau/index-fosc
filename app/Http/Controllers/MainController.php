@@ -186,6 +186,14 @@ class MainController extends Controller
             }
 
             if (isset($args['page']) && $correct['page']) {
+                // do not report second result for exact same page
+                if (!empty($alternativeResults['page'])) {
+                    if ($alternativeResults['page'][0]['page'] == $record['page'] &&
+                        $alternativeResults['page'][0]['issue'] == $record['issue'] &&
+                        $alternativeResults['page'][0]['date'] == $record['date']) {
+                        continue;
+                    }
+                }
                 $alternativeResults['page'][] = $record;
             }
             if (isset($args['issue']) && $correct['issue']) {
