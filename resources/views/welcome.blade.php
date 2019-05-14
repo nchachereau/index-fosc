@@ -120,14 +120,14 @@
                         <div class="field column">
                             <label class="label" for="n">Cahier <span class="comment">(optionnel)</span></label>
                             <div class="control">
-                                <input class="input {{ $errors->has('n') ? 'is-danger' : '' }}" name="n" id="n" type="text" placeholder="10" value=>
+                                <input class="input {{ $errors->has('n') ? 'is-danger' : '' }}" name="n" id="n" type="text" placeholder="10" value="{{ old('n') }}">
                                 @include('field-error', ['field' => 'n'])
                             </div>
                         </div>
                         <div class="field column">
                             <label class="label" for="p" title="Veuillez compléter ce champ.">Page</label>
                             <div class="control">
-                                <input class="input {{ $errors->has('p') ? 'is-danger' : '' }}" name="p" id="p" type="text" placeholder="73">
+                                <input class="input {{ $errors->has('p') ? 'is-danger' : '' }}" name="p" id="p" type="text" placeholder="73" value="{{ old('p') }}">
                             </div>
                             @include('field-error', ['field' => 'p'])
                         </div>
