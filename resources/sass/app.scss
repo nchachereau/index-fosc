@@ -42,6 +42,7 @@ p > .button {
     max-width: 100%;
     resize: none;
     overflow: hidden;
+    margin-bottom: 0.5rem;
 }
 .reference::selection {
     background: rgba(255, 255, 255, 0.9);
