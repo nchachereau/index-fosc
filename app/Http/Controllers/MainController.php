@@ -156,7 +156,9 @@ class MainController extends Controller
         if ($request->filled('n')) {
             $args['issue'] = $request->input('n');
         }
-
+        if ($request->filled('part')) {
+            $args['part'] = $request->input('part');
+        }
         if (is_numeric($request->input('dt'))) {
             $year = intval($request->input('dt'));
         } else {
@@ -180,14 +182,18 @@ class MainController extends Controller
         foreach ($csv as $record) {
             $correct = [
                 'date' => (!isset($args['date']) || $args['date']->format('d.m.Y') == $record['date']),
-                'issue' => (!isset($args['issue']) || $record['issue'] == $args['issue']),
+                'part' => ($year != 1883) || ($request->input('part', -1) == explode('.', $record['issue'])[1]),
+                'issue' => (!isset($args['issue']) ||
+                            ($year != 1883 && $record['issue'] == $args['issue']) ||
+                            ($year == 1883 && $args['issue'] == explode('.', $record['issue'])[0])
+                ),
                 'page' => ($record['page'] == $request->input('p', -1)),
             ];
 
             if (count($args) > 1) {
                 // filter values asked for
                 $matches = array_intersect_key($correct, $args);
-                if (count(array_filter($matches)) == count($args)) {
+                if (count(array_filter($matches)) == count($args) && (isset($args['date']) || $correct['part'])) {
                     // perfect match
                     $result = $record;
                     $alternativeResults = [];
@@ -209,19 +215,13 @@ class MainController extends Controller
             if (isset($args['issue']) && $correct['issue']) {
                 if (!isset($alternativeResults['issue'])) {
                     $alternativeResults['issue'][] = $record;
-                }
-            } elseif (isset($args['issue']) && $year == 1883) {
-                if ($args['issue'] == explode('.', $record['issue'])[0]) {
-                    if (!isset($alternativeResults['issue'])) {
+                } else {
+                    $knownIssues = array_reduce($alternativeResults['issue'], function ($c, $i) {
+                        $c[] = $i['issue'];
+                        return $c;
+                    }, []);
+                    if (!in_array($record['issue'], $knownIssues)) {
                         $alternativeResults['issue'][] = $record;
-                    } else {
-                        $knownIssues = array_reduce($alternativeResults['issue'], function ($c, $i) {
-                            $c[] = $i['issue'];
-                            return $c;
-                        }, []);
-                        if (!in_array($record['issue'], $knownIssues)) {
-                            $alternativeResults['issue'][] = $record;
-                        }
                     }
                 }
             }
