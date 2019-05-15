@@ -143,7 +143,7 @@
         <footer class="footer">
             <div class="container">
                 <div class="content">
-                    <p>Une création de <a href="#">Nicolas Chachereau</a>.</p>
+                    <p>Une création de <a href="https://unil.academia.edu/NicolasChachereau">Nicolas Chachereau</a>.</p>
                     <p>Données extraites des interfaces d’<a href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001">e-periodica</a> (ETH Zürich) et d’<a href="https://www.e-helvetica.nb.admin.ch/directAccess?callnumber=nbdig-65878">e-Helvetica</a> (Bibliothèque nationale suisse).</p>
                     <p>Technique : Site construit avec <a href="https://laravel.com/">Laravel</a>. Style basé sur <a href="https://bulma.io/">Bulma</a>.
                 </div>
