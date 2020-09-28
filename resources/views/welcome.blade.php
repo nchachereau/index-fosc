@@ -18,7 +18,7 @@
                         officielle suisse du commerce</i> (FOSC)
                         <i class="fas fa-external-link-alt"></i></a>:
                     un moyen de passer rapidement d'une page scannée à la référence bibliographique - et
-                    inversément. </span><a class="is-hidden-desktop" href="#">Plus d’informations <i class="fas fa-arrow-down"></i></a></p>
+                    inversément. </span><a class="is-hidden-desktop" href="#about">Plus d’informations <i class="fas fa-arrow-down"></i></a></p>
             </div>
         </section>
         @if (session('error'))
@@ -138,6 +138,31 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-hidden-desktop">
+                        <div class="box" id="about">
+                            <h2 class="title is-6">À propos de ce site</h2>
+                            <p>Ce qu'il manquait à la version
+                                numérisée de la
+                                <a target="_blank" href="https://www.e-periodica.ch/digbib/volumes?UID=sha-001"><i>Feuille
+                                    officielle suisse du commerce</i> (FOSC)
+                                    <i class="fas fa-external-link-alt"></i></a>:
+                                un moyen de passer rapidement d'une page scannée à la référence
+                                bibliographique - et inversément.</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box content">
+                            <h2 class="title is-6">Nouveautés</h2>
+                            <p>28.09.2020 : Modifications pour gérer les nouvelles URLs
+                                (induites par une mise à jour d’e-periodica).</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <footer class="footer">
