@@ -77,3 +77,6 @@ sup {
     vertical-align: super;
     margin-left: 0.4rem;
 }
+.box:target {
+    background-color: hsl(48, 100%, 96%);
+}
