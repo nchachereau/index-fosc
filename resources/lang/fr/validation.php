@@ -10,7 +10,7 @@ return [
 
     'custom' => [
         'dt' => [
-            'regex' => 'Format de date non reconnu.',
+            'regex' => 'La date doit être indiquée au format JJ.MM.AAAA.',
         ],
         'p' => [
             'required' => 'Un numéro de page est requis en l’absence de date précise.'
