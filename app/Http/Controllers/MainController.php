@@ -21,6 +21,8 @@ class MainController extends Controller
         $url = $request->input('url');
         session(['url' => $url]);
 
+        $url = urldecode($url);
+
         $example = 'par exemple <a href="' .
             route('get_suffix', ['url' => 'https://www.e-periodica.ch/digbib/view?pid=sha-001:1896:14::412#412']) .
             '">https://www.e-periodica.ch/digbib/view?pid=sha-001:1896:14::412#412</a> ?';
@@ -31,16 +33,15 @@ class MainController extends Controller
         )) {
             return redirect('/')->with(
                 'error',
-                e($url) . ' ne ressemble pas à une URL. ' .
+                '«'. e($url) . '» ne ressemble pas à une URL. ' .
                 'Et si vous essayiez avec une numérisation de la FOSC ' .
                 'sur le site e-periodica, ' . $example
             );
         }
 
-        if (!preg_match(
-            '/^https?:\/\/www\.e-periodica\.ch/',
-            $url
-        )) {
+        $parts = parse_url($url);
+
+        if ($parts['host'] != 'www.e-periodica.ch') {
             return redirect('/')->with(
                 'error',
                 'L’adresse ' . e($url) . ' n’est pas prise en charge. ' .
@@ -49,10 +50,7 @@ class MainController extends Controller
             );
         }
 
-        if (preg_match(
-            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/(doasearch|hitlist)/',
-            $url
-        )) {
+        if ($parts['path'] == '/digbib/doasearch' || $parts['path'] == '/digbib/hitlist') {
             return redirect('/')->with(
                 'error',
                 'Malheureusement, la page des résultats de recherche ' .
@@ -62,29 +60,36 @@ class MainController extends Controller
             );
         }
 
-        if (preg_match(
-            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=sha-002/',
-            $url
-        )) {
+        if (!isset($parts['query'])) {
+            return redirect('/')->with(
+                'error',
+                'L’adresse ' . e($url) . ' ne semble pas correspondre à une ' .
+                'page numérisée de la FOSC. Et si vous essayiez avec ' .
+                $example
+            );
+        }
+
+        parse_str($parts['query'], $parameters);
+
+        if ($parts['path'] == '/digbib/view' && preg_match('/^sha-002/', $parameters['pid'])) {
             return redirect('/')->with(
                 'error',
                 'Désolé, les pages de <i>fosc.ch</i> (à partir de 2002) ne sont pas encore prises en charge.'
             );
         }
 
-        if (!preg_match(
-            '/^https?:\/\/www\.e-periodica\.ch\/digbib\/view\?pid=' .
-            'sha-00([12]):(\d{4}):\d+(?:::(\d+))?(?:#(\d+))?$/',
-            $url,
-            $matches
-        )
-            ) {
+        if ($parts['path'] != '/digbib/view' ||
+            !preg_match(
+                '/^sha-00([12]):(\d{4}):\d+(?:::(\d+))?$/',
+                $parameters['pid'],
+                $matches
+            )) {
             $url = e($url);
             return redirect('/')->with('error', "L’adresse $url ne correspond à aucune page connue.");
         }
 
         if (isset($matches[3])) {
-            $suffix = (isset($matches[4])) ? $matches[4] : $matches[3];
+            $suffix = (isset($parts['fragment'])) ? $parts['fragment'] : $matches[3];
         } else {
             $suffix = 1;
         }
