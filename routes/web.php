@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +14,7 @@
 |
 */
 
-Route::get('/', 'MainController@home')->name('home');
-Route::get('/ref/{year}/{suffix}', 'MainController@reference')->name('get_reference');
-Route::get('/ref/', 'MainController@getSuffix')->name('get_suffix');
-Route::get('/page/', 'MainController@page')->name('get_page');
+Route::get('/', [MainController::class, 'home'])->name('home');
+Route::get('/ref/{year}/{suffix}', [MainController::class, 'reference'])->name('get_reference');
+Route::get('/ref/', [MainController::class, 'getSuffix'])->name('get_suffix');
+Route::get('/page/', [MainController::class, 'page'])->name('get_page');
