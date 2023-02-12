@@ -158,6 +158,8 @@
                     <div class="column">
                         <div class="box content">
                             <h2 class="title is-6">Nouveautés</h2>
+                            <p>12.02.2023 : Correction des dates associées à certaines pages ; mise à
+                              jour générale du système.</p>
                             <p>28.09.2020 : Modifications pour gérer les nouvelles URLs
                                 (induites par une mise à jour d’e-periodica).</p>
                         </div>
