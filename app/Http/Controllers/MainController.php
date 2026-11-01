@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use League\Csv\Reader;
 
