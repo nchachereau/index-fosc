@@ -1,12 +1,13 @@
 - `git clone <thisrepo>`
+- `cd index-fosc`
 - `wget 'https://raw.githubusercontent.com/laravel/laravel/refs/heads/master/artisan'`
 - `/opt/php8.5/bin/composer install --optimize-autoloader --no-dev` (adapt path to composer depending on PHP version)
-- `/opt/php8.5/bin/php artisan config:cache` (adapt path to PHP)
-- `/opt/php8.5/php artisan view:cache`
+- `/opt/php8.5/bin/php artisan view:cache` (adapt path to PHP)
 - create `.env` based on `env.production`:
   ```
   cp env.production .env
-  php artisan key:gen
+  /opt/php8.5/bin/php artisan key:gen # adapt path to PHP
+  /opt/php8.5/bin/php artisan config:cache # here too
   ```
 - adapt `public/.htaccess` as needed (e.g. change `RewriteBase`)
 - `npm install`, `npm run prod`
